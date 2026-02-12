@@ -1,5 +1,5 @@
 package org.adt.jwtauthtrenning.entity;
 
-public enum Role {
+public enum UserRole {
     ADMIN, USER
 }

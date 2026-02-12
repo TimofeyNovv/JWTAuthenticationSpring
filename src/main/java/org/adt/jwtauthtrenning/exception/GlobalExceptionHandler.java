@@ -20,35 +20,32 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("USER_NOT_FOUND")
                 .description(exception.getMessage())
-                .time(LocalDateTime.now())
-                .build();
-
+                .time(LocalDateTime.now()).build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(
-            UserAlreadyExistsException exception
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(
+            UserAlreadyExistException exception
     ) {
-
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("USER_ALREADY_EXISTS")
                 .description(exception.getMessage())
                 .time(LocalDateTime.now())
                 .build();
-
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
-
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidValidation(MethodArgumentNotValidException ex) {
-        ErrorResponse error = ErrorResponse.builder()
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException exception
+    ) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("VALIDATION_ERROR")
-                .description(ex.getMessage())
+                .description(exception.getMessage())
                 .time(LocalDateTime.now())
                 .build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -57,12 +54,9 @@ public class GlobalExceptionHandler {
     ) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("JSON_FORMAT_ERROR")
-                .description("невалидный JSON проверьте запятые и кавычки")
+                .description("некорректный формат json, проверьте запятые и кавычки")
                 .time(LocalDateTime.now())
                 .build();
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
-
-
 }

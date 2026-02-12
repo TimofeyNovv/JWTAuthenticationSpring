@@ -1,4 +1,4 @@
-package org.adt.jwtauthtrenning.configuration;
+package org.adt.jwtauthtrenning.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -10,15 +10,15 @@ import org.springframework.context.annotation.Configuration;
 @SecurityScheme(
         name = "jwtAuth",
         type = SecuritySchemeType.HTTP,
-        scheme = "bearer",
+        scheme = "Bearer",
         bearerFormat = "JWT"
+
 )
 @OpenAPIDefinition(
         info = @Info(
-                title = "Training jwt API",
-                description = "documentation for backend endpoints"
+                title = "training jwt",
+                description = "documentation"
         )
 )
-public class SwaggerConfiguration {
-
+public class SwaggerConfig {
 }

@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.adt.jwtauthtrenning.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -19,35 +18,32 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
 
-    private final UserRepository userRepository;
-    private final static String SECRET_KEY = "61a1715e1867902be46254e332607429adcb3da45f9583a35a40024e78022e69";
+    private final String SECRET_KEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
-    public String extractUsername(String token) {
+    public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
     }
 
-    private Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token){
         return Jwts.parser()
                 .verifyWith(getSignKey())
                 .build()
                 .parseSignedClaims(token)
-               .getPayload();
+                .getPayload();
     }
 
-    private SecretKey getSignKey() {
+    private SecretKey getSignKey(){
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(
-            Map<String, Object> extractClaims,
-            UserDetails userDetails
-    ) {
+
+    private String generateToken(Map<String, Object> extractClaims, UserDetails userDetails){
         return Jwts.builder()
                 .claims(extractClaims)
                 .subject(userDetails.getUsername())
@@ -57,24 +53,20 @@ public class JwtService {
                 .compact();
     }
 
-    public String generateToken(
-            UserDetails userDetails
-    ) {
+    public String generateToken(UserDetails userDetails){
         return generateToken(new HashMap<>(), userDetails);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails){
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return ((username.equals(userDetails.getUsername()) && !isTokenExpired(token)));
     }
 
-    private boolean isTokenExpired(String token){
+    private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    private Date extractExpiration(String token){
+    public Date extractExpiration(String token){
         return extractClaim(token, Claims::getExpiration);
     }
-
-
 }
