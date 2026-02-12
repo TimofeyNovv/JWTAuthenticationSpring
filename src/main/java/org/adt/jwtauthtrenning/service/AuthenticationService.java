@@ -1,6 +1,5 @@
 package org.adt.jwtauthtrenning.service;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.adt.jwtauthtrenning.dto.AuthenticationRequest;
 import org.adt.jwtauthtrenning.dto.AuthenticationResponse;
@@ -15,16 +14,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.Role;
-
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-    private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     public AuthenticationResponse login(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -33,15 +30,16 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByEmail(request.getEmail())
+
+        UserEntity userEntity = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UserNotFoundException("user with email - " + request.getEmail() + " not found"));
 
-        var accessToken = jwtService.generateToken(user);
+        String accessToken = jwtService.generateToken(userEntity);
+
         return AuthenticationResponse.builder()
                 .accessToken(accessToken)
                 .build();
     }
-
 
     public AuthenticationResponse register(RegisterRequest request) {
 
@@ -56,6 +54,7 @@ public class AuthenticationService {
                 .build();
 
         userRepository.save(userEntity);
+
         String accessToken = jwtService.generateToken(userEntity);
 
         return AuthenticationResponse.builder()

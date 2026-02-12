@@ -24,12 +24,12 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/api/demo/ping",
-                                "/api/auth/**",
-                                "/docs",
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-recourses/**"
+                                        "/api/auth/**",
+                                        "/docs",
+                                        "/swagger-ui.html",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**",
+                                        "/swagger-recourses/**"
                                 )
                                 .permitAll()
                                 .anyRequest()

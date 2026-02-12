@@ -13,27 +13,32 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotFoundException(
-            UserNotFoundException exception
-    ) {
-        ErrorResponse errorResponse = ErrorResponse.builder()
-                .responseCode("USER_NOT_FOUND")
-                .description(exception.getMessage())
-                .time(LocalDateTime.now()).build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-    }
-
     @ExceptionHandler(UserAlreadyExistException.class)
     public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(
             UserAlreadyExistException exception
     ) {
+
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("USER_ALREADY_EXISTS")
                 .description(exception.getMessage())
                 .time(LocalDateTime.now())
                 .build();
+
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(
+            UserNotFoundException exception
+    ) {
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .responseCode("USER_NOT_FOUND")
+                .description(exception.getMessage())
+                .time(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -43,8 +48,7 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("VALIDATION_ERROR")
                 .description(exception.getMessage())
-                .time(LocalDateTime.now())
-                .build();
+                .time(LocalDateTime.now()).build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
@@ -57,6 +61,7 @@ public class GlobalExceptionHandler {
                 .description("некорректный формат json, проверьте запятые и кавычки")
                 .time(LocalDateTime.now())
                 .build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 }
