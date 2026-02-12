@@ -16,4 +16,5 @@ public class ErrorResponse {
     private String responseCode;
     private String description;
     private LocalDateTime time;
+
 }

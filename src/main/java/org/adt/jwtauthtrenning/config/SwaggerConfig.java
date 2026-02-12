@@ -9,15 +9,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @SecurityScheme(
         name = "jwtAuth",
-        type = SecuritySchemeType.HTTP,
         scheme = "Bearer",
-        bearerFormat = "JWT"
-
+        bearerFormat = "Authorization",
+        type = SecuritySchemeType.HTTP
 )
 @OpenAPIDefinition(
         info = @Info(
                 title = "training jwt",
-                description = "documentation"
+                description = "documentation for back end"
         )
 )
 public class SwaggerConfig {

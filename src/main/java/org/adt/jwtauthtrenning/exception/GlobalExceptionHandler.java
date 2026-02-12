@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserAlreadyExistException.class)
+    @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(
-            UserAlreadyExistException exception
+            UserAlreadyExistsException exception
     ) {
 
         ErrorResponse errorResponse = ErrorResponse.builder()

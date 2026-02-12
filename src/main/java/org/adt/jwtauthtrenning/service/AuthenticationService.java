@@ -1,12 +1,13 @@
 package org.adt.jwtauthtrenning.service;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.adt.jwtauthtrenning.dto.AuthenticationRequest;
 import org.adt.jwtauthtrenning.dto.AuthenticationResponse;
 import org.adt.jwtauthtrenning.dto.RegisterRequest;
 import org.adt.jwtauthtrenning.entity.UserEntity;
 import org.adt.jwtauthtrenning.entity.UserRole;
-import org.adt.jwtauthtrenning.exception.UserAlreadyExistException;
+import org.adt.jwtauthtrenning.exception.UserAlreadyExistsException;
 import org.adt.jwtauthtrenning.exception.UserNotFoundException;
 import org.adt.jwtauthtrenning.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,14 +15,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse login(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -33,9 +36,7 @@ public class AuthenticationService {
 
         UserEntity userEntity = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UserNotFoundException("user with email - " + request.getEmail() + " not found"));
-
         String accessToken = jwtService.generateToken(userEntity);
-
         return AuthenticationResponse.builder()
                 .accessToken(accessToken)
                 .build();
@@ -44,9 +45,8 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new UserAlreadyExistException("user with email - " + request.getEmail() + " already exists");
+            throw new UserAlreadyExistsException("user with email - " + request.getEmail() + " already exists");
         }
-
         UserEntity userEntity = UserEntity.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))

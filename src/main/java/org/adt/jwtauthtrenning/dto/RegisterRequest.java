@@ -14,6 +14,8 @@ public class RegisterRequest {
 
     @NotBlank(message = "email is blank")
     private String email;
+
     @NotBlank(message = "password is blank")
     private String password;
+
 }

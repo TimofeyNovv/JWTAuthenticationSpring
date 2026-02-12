@@ -1,6 +1,5 @@
 package org.adt.jwtauthtrenning.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DemoController {
 
-    @Operation(
-            summary = "базовый ping"
-    )
     @GetMapping("/ping")
     public ResponseEntity<String> ping(){
         return ResponseEntity.ok().body("pong");
     }
 
-    @Operation(
-            summary = "пинг, доступный только после авторизации"
-    )
     @SecurityRequirement(name = "jwtAuth")
     @GetMapping("/authping")
     public ResponseEntity<String> authping(){
