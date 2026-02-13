@@ -12,19 +12,18 @@ import org.adt.jwtauthtrenning.exception.UserNotFoundException;
 import org.adt.jwtauthtrenning.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Base64;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-    private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     public AuthenticationResponse login(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -36,7 +35,9 @@ public class AuthenticationService {
 
         UserEntity userEntity = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UserNotFoundException("user with email - " + request.getEmail() + " not found"));
+
         String accessToken = jwtService.generateToken(userEntity);
+
         return AuthenticationResponse.builder()
                 .accessToken(accessToken)
                 .build();

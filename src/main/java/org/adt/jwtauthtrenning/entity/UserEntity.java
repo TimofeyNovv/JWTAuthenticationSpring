@@ -1,6 +1,7 @@
 package org.adt.jwtauthtrenning.entity;
 
 import jakarta.persistence.*;
+import jdk.jfr.Enabled;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
