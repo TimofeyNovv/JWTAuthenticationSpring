@@ -14,12 +14,12 @@ public class DemoController {
 
     @GetMapping("/ping")
     public ResponseEntity<String> ping(){
-        return ResponseEntity.ok().body("pong");
+        return ResponseEntity.ok("pong");
     }
 
     @SecurityRequirement(name = "jwtAuth")
     @GetMapping("/authping")
     public ResponseEntity<String> authping(){
-        return ResponseEntity.ok().body("auth pong");
+        return ResponseEntity.ok("auth pong");
     }
 }
