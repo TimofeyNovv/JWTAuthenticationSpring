@@ -17,7 +17,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(
             UserNotFoundException exception
     ) {
-
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("USER_NOT_FOUND")
                 .description(exception.getMessage())
@@ -27,13 +26,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
-    @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(
-            UserAlreadyExistException exception
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(
+            UserAlreadyExistsException exception
     ) {
-
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .responseCode("USER_ALREADY_EXIST")
+                .responseCode("USER_ALREADY_EXISTS")
                 .description(exception.getMessage())
                 .time(LocalDateTime.now())
                 .build();
@@ -45,7 +43,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException exception
     ) {
-
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("VALIDATION_ERROR")
                 .description(exception.getMessage())
@@ -59,10 +56,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(
             HttpMessageNotReadableException exception
     ) {
-
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .responseCode("JSON_VALIDATION_ERROR")
-                .description("невалидный json, проверьте запятые или кавычки")
+                .responseCode("JSON_FORMAT_ERROR")
+                .description("некорректный формат json, проверьте запятые и кавычки")
                 .time(LocalDateTime.now())
                 .build();
 
