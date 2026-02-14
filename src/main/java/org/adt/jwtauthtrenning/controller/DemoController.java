@@ -22,10 +22,4 @@ public class DemoController {
     public ResponseEntity<String> authping() {
         return ResponseEntity.ok().body("auth pong");
     }
-
-    @SecurityRequirement(name = "jwtAuth")
-    @GetMapping("/adminping")
-    public ResponseEntity<String> adminping() {
-        return ResponseEntity.ok().body("admin pong");
-    }
 }

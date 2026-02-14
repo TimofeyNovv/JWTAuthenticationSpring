@@ -18,7 +18,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
 
-    private final String SECRET_KEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    private final String SECRET_KEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
 
     public String extractUsername(String token) {
@@ -45,7 +45,8 @@ public class JwtService {
 
     public String generateToken(
             Map<String, Object> extractClaim,
-            UserDetails userDetails) {
+            UserDetails userDetails
+    ) {
         return Jwts.builder()
                 .claims(extractClaim)
                 .subject(userDetails.getUsername())

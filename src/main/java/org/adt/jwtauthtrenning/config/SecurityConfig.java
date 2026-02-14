@@ -31,11 +31,11 @@ public class SecurityConfig {
                                         "/v3/api-docs/**",
                                         "/swagger-recourses/**")
                                 .permitAll()
-                                .requestMatchers("/api/demo/adminping").hasAuthority("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

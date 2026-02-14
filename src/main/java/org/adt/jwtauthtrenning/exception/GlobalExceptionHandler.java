@@ -58,10 +58,14 @@ public class GlobalExceptionHandler {
     ) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("JSON_FORMAT_ERROR")
-                .description("некорректный формат json, проверьте запятые и кавычки")
+                .description("некорректный json, проверьте запятые и кавычки")
                 .time(LocalDateTime.now())
                 .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
+
+
+
+
 }

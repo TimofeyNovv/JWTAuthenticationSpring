@@ -19,11 +19,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
-
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     public AuthenticationResponse login(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -44,6 +43,7 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
+
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new UserAlreadyExistsException("user with email - " + request.getEmail() + " already exists");
         }
@@ -51,15 +51,14 @@ public class AuthenticationService {
         UserEntity userEntity = UserEntity.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(UserRole.ADMIN)
+                .role(UserRole.USER)
                 .build();
 
         userRepository.save(userEntity);
 
         String accessToken = jwtService.generateToken(userEntity);
 
-        return AuthenticationResponse
-                .builder()
+        return AuthenticationResponse.builder()
                 .accessToken(accessToken)
                 .build();
     }
