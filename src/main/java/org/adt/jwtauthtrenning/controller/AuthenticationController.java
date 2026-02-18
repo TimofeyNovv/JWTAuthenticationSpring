@@ -27,9 +27,9 @@ public class AuthenticationController {
     @Operation(
             summary = "эндпоинт для входа",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "успешный вход , возвращается access_token"),
+                    @ApiResponse(responseCode = "200", description = "успешный вход, возвращается access_token"),
                     @ApiResponse(responseCode = "404", description = "пользователь с таким email не найден", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-                    @ApiResponse(responseCode = "400", description = "некорректный формат json, или неправильное заполнение полей json", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                    @ApiResponse(responseCode = "400", description = "невалидный формат json или невалидные данные json", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             }
     )
     @PostMapping("/login")
@@ -44,7 +44,7 @@ public class AuthenticationController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "успешная регистрация, возвращается access_token"),
                     @ApiResponse(responseCode = "409", description = "пользователь с таким email уже существует", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-                    @ApiResponse(responseCode = "400", description = "некорректный формат json, или неправильное заполнение полей json", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                    @ApiResponse(responseCode = "400", description = "невалидный формат json или невалидные данные json", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             }
     )
     @PostMapping("/register")

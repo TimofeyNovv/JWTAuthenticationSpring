@@ -1,6 +1,5 @@
 package org.adt.jwtauthtrenning.service;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.adt.jwtauthtrenning.dto.AuthenticationRequest;
 import org.adt.jwtauthtrenning.dto.AuthenticationResponse;
@@ -47,7 +46,6 @@ public class AuthenticationService {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new UserAlreadyExistsException("user with email - " + request.getEmail() + " already exists");
         }
-
         UserEntity userEntity = UserEntity.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))

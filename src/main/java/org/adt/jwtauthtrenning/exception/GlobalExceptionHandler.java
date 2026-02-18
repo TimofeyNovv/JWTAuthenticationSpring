@@ -57,15 +57,11 @@ public class GlobalExceptionHandler {
             HttpMessageNotReadableException exception
     ) {
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .responseCode("JSON_FORMAT_ERROR")
-                .description("некорректный json, проверьте запятые и кавычки")
+                .responseCode("JSON_FORMAT_EXCEPTION")
+                .description("некорректный формат json, проверьте запятые или кавычки")
                 .time(LocalDateTime.now())
                 .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
-
-
-
-
 }
