@@ -18,8 +18,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
 
-    private final String SECRET_KEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-
+    private final String SECRET_KEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -33,7 +32,7 @@ public class JwtService {
                 .getPayload();
     }
 
-    public SecretKey getSignKey() {
+    private SecretKey getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
@@ -43,16 +42,13 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(
-            Map<String, Object> extractClaim,
-            UserDetails userDetails
-    ) {
+    public String generateToken(Map<String, Object> extractClaim, UserDetails userDetails) {
         return Jwts.builder()
-                .claims(extractClaim)
+                .signWith(getSignKey(), Jwts.SIG.HS256)
                 .subject(userDetails.getUsername())
+                .claims(extractClaim)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 3600 * 24))
-                .signWith(getSignKey(), Jwts.SIG.HS256)
                 .compact();
     }
 

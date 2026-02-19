@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 @SecurityScheme(
         name = "jwtAuth",
         type = SecuritySchemeType.HTTP,
-        scheme = "bearer",
-        bearerFormat = "Authorization"
+        bearerFormat = "Authorization",
+        scheme = "bearer"
 )
 @OpenAPIDefinition(
         info = @Info(
