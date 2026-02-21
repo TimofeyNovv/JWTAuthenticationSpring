@@ -21,8 +21,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -53,7 +53,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         userDetails.getAuthorities()
                 );
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }

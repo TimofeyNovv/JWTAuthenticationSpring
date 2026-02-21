@@ -22,18 +22,20 @@ public class GlobalExceptionHandler {
                 .description(exception.getMessage())
                 .time(LocalDateTime.now())
                 .build();
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(
-            UserNotFoundException exception
+            UserAlreadyExistsException exception
     ) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("USER_ALREADY_EXISTS")
                 .description(exception.getMessage())
                 .time(LocalDateTime.now())
                 .build();
+
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
@@ -46,6 +48,7 @@ public class GlobalExceptionHandler {
                 .description(exception.getMessage())
                 .time(LocalDateTime.now())
                 .build();
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
@@ -55,9 +58,10 @@ public class GlobalExceptionHandler {
     ) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("JSON_FORMAT_ERROR")
-                .description("некорректный формат json, проверьте запятые и кавычки")
+                .description(exception.getMessage())
                 .time(LocalDateTime.now())
                 .build();
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }

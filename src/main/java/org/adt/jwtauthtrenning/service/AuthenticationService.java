@@ -9,6 +9,7 @@ import org.adt.jwtauthtrenning.entity.UserRole;
 import org.adt.jwtauthtrenning.exception.UserAlreadyExistsException;
 import org.adt.jwtauthtrenning.exception.UserNotFoundException;
 import org.adt.jwtauthtrenning.repository.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -53,8 +54,8 @@ public class AuthenticationService {
                 .build();
 
         userRepository.save(userEntity);
-        String accessToken = jwtService.generateToken(userEntity);
 
+        String accessToken = jwtService.generateToken(userEntity);
         return AuthenticationResponse.builder()
                 .accessToken(accessToken)
                 .build();
