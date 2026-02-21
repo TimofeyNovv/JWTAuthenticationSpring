@@ -1,19 +1,14 @@
 package org.adt.jwtauthtrenning.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.adt.jwtauthtrenning.dto.AuthenticationRequest;
 import org.adt.jwtauthtrenning.dto.AuthenticationResponse;
-import org.adt.jwtauthtrenning.dto.ErrorResponse;
 import org.adt.jwtauthtrenning.dto.RegisterRequest;
 import org.adt.jwtauthtrenning.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,32 +22,26 @@ public class AuthenticationController {
     @Operation(
             summary = "эндпоинт для входа",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "успешно, возвращается access_token"),
-                    @ApiResponse(responseCode = "404", description = "пользвоатель с таким email не найден", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-                    @ApiResponse(responseCode = "400", description = "некорректный формат json или некорректное заполненеи полей json", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                    @ApiResponse(responseCode = "200", description = "успешный вход, возвращается access_token"),
+                    @ApiResponse(responseCode = "404", description = "пользователь с таким email не найден"),
+                    @ApiResponse(responseCode = "400", description = "некорректный json или некорректное заполнение полей json")
             }
     )
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(
-            @Valid @RequestBody AuthenticationRequest request
-    ) {
+    public ResponseEntity<AuthenticationResponse> login(AuthenticationRequest request) {
         return ResponseEntity.ok().body(authenticationService.login(request));
     }
 
     @Operation(
             summary = "эндпоинт для регистрации",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "успешно, возвращается access_token"),
-                    @ApiResponse(responseCode = "409", description = "пользователь с таким email уже существует", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-                    @ApiResponse(responseCode = "400", description = "некорректный формат json или некорректное заполненеи полей json", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                    @ApiResponse(responseCode = "200", description = "успешная регистрация, возвращается access_token"),
+                    @ApiResponse(responseCode = "409", description = "пользователь с таким email уже существует"),
+                    @ApiResponse(responseCode = "400", description = "некорректный json или некорректное заполнение полей json")
             }
     )
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
-            @Valid @RequestBody RegisterRequest request
-    ) {
+    public ResponseEntity<AuthenticationResponse> register(RegisterRequest request) {
         return ResponseEntity.ok().body(authenticationService.register(request));
     }
-
-
 }

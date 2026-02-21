@@ -8,17 +8,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
 public class JwtService {
 
-    private final String SECRET_KEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    private final String SECRET_KEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -45,8 +48,8 @@ public class JwtService {
     public String generateToken(Map<String, Object> extractClaim, UserDetails userDetails) {
         return Jwts.builder()
                 .signWith(getSignKey(), Jwts.SIG.HS256)
-                .subject(userDetails.getUsername())
                 .claims(extractClaim)
+                .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 3600 * 24))
                 .compact();

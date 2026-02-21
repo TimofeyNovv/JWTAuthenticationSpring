@@ -1,6 +1,5 @@
 package org.adt.jwtauthtrenning.service;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.adt.jwtauthtrenning.dto.AuthenticationRequest;
 import org.adt.jwtauthtrenning.dto.AuthenticationResponse;
@@ -21,8 +20,8 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse login(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -54,7 +53,6 @@ public class AuthenticationService {
                 .build();
 
         userRepository.save(userEntity);
-
         String accessToken = jwtService.generateToken(userEntity);
 
         return AuthenticationResponse.builder()

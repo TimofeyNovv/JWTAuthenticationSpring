@@ -17,9 +17,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(
             UserNotFoundException exception
     ) {
-        ErrorResponse errorResponse = ErrorResponse
-                .builder()
-                .errorResponse("USER_NOT_FOUND")
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .responseCode("USER_NOT_FOUND")
                 .description(exception.getMessage())
                 .time(LocalDateTime.now())
                 .build();
@@ -28,11 +27,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(
-            UserAlreadyExistsException exception
+            UserNotFoundException exception
     ) {
-        ErrorResponse errorResponse = ErrorResponse
-                .builder()
-                .errorResponse("USER_ALREDY_EXISTS")
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .responseCode("USER_ALREADY_EXISTS")
                 .description(exception.getMessage())
                 .time(LocalDateTime.now())
                 .build();
@@ -43,9 +41,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException exception
     ) {
-        ErrorResponse errorResponse = ErrorResponse
-                .builder()
-                .errorResponse("VALIDATION_ERROR")
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .responseCode("VALIDATION_ERROR")
                 .description(exception.getMessage())
                 .time(LocalDateTime.now())
                 .build();
@@ -56,9 +53,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(
             HttpMessageNotReadableException exception
     ) {
-        ErrorResponse errorResponse = ErrorResponse
-                .builder()
-                .errorResponse("JSON_FORMAT_ERROR")
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .responseCode("JSON_FORMAT_ERROR")
                 .description("некорректный формат json, проверьте запятые и кавычки")
                 .time(LocalDateTime.now())
                 .build();
