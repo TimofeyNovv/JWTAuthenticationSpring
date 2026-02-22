@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
     ) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .responseCode("JSON_FORMAT_ERROR")
-                .description(exception.getMessage())
+                .description("некорректный формат json, проверьте запятые и кавычки")
                 .time(LocalDateTime.now())
                 .build();
 

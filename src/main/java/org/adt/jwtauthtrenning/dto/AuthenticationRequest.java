@@ -17,5 +17,4 @@ public class AuthenticationRequest {
 
     @NotBlank(message = "password is blank")
     private String password;
-
 }

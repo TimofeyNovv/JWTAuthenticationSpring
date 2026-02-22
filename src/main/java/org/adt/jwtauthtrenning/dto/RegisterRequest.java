@@ -1,6 +1,5 @@
 package org.adt.jwtauthtrenning.dto;
 
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

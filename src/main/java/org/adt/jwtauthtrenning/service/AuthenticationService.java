@@ -20,9 +20,9 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     public AuthenticationResponse login(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -35,9 +35,8 @@ public class AuthenticationService {
         UserEntity userEntity = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UserNotFoundException("user with email - " + request.getEmail() + " not found"));
 
-        String accessToken = jwtService.generateToken(userEntity);
         return AuthenticationResponse.builder()
-                .accessToken(accessToken)
+                .accessToken(jwtService.generateToken(userEntity))
                 .build();
     }
 
@@ -55,9 +54,8 @@ public class AuthenticationService {
 
         userRepository.save(userEntity);
 
-        String accessToken = jwtService.generateToken(userEntity);
         return AuthenticationResponse.builder()
-                .accessToken(accessToken)
+                .accessToken(jwtService.generateToken(userEntity))
                 .build();
     }
 }
