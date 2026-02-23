@@ -1,6 +1,7 @@
 package org.adt.jwtauthtrenning.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
 
     @Operation(
-            summary = "базовый ping"
+            summary = "базовый ping",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "успешно")
+            }
     )
     @GetMapping("/ping")
     public ResponseEntity<String> ping() {
@@ -20,7 +24,11 @@ public class DemoController {
     }
 
     @Operation(
-            summary = "ping, доступный только после входа"
+            summary = "ping, доступный только после входа",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "успешно"),
+                    @ApiResponse(responseCode = "403", description = "отказано в доступе")
+            }
     )
     @SecurityRequirement(name = "jwtAuth")
     @GetMapping("/authping")
