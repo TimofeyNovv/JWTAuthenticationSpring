@@ -1,6 +1,7 @@
 package org.adt.jwtauthtrenning.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationResponse {
 
+    @Schema(description = "access_token, обрати внимание, что я всего в ответе пишу через нижний слеш")
     @JsonProperty("access_token")
     private String accessToken;
 

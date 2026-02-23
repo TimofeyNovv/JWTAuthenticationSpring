@@ -1,5 +1,6 @@
 package org.adt.jwtauthtrenning.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,9 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterRequest {
 
+    @Schema(description = "Email пользователя, валидации нету, главное не пустой", example = "user@example.com")
     @NotBlank(message = "email is blank")
     private String email;
 
+    @Schema(description = "Пароль, валидации нету, главное не пустой", example = "P@ssw0rd!")
     @NotBlank(message = "password is blank")
     private String password;
 
